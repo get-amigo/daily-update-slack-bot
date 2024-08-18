@@ -47,21 +47,21 @@ async function sendReminder() {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `:wave: Hey ${memberMentions}!\n- \n- Just a friendly reminder to share your daily updates if you haven't done so already! Please take a moment to fill out the following:`
+              text: `:wave: Hey ${memberMentions}!\n\n Just a friendly reminder to share your daily updates if you haven't done so already! Please take a moment to fill out the following:`
             }
           },
           {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `*Tasks done today:*\n- \n- \n- \n\n*Tasks for tomorrow:*\n- \n- \n- \n\n*Blockers:*\n- \n- \n-`
+              text: `*Tasks done today:*\n- \n\n*Tasks for tomorrow:*\n- \n\n*Blockers:*\n-`
             }
           },
           {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `This helps everyone stay in the loop and keeps us all moving forward.\n- \n- If you've already posted your update, thank you! If not, please do so at your earliest convenience. Thanks! :blush:`
+              text: `This helps everyone stay in the loop and keeps us all moving forward.\n\n If you've already posted your update, thank you! If not, please do so at your earliest convenience. Thanks! :blush:`
             }
           }
         ]
