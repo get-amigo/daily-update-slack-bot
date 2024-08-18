@@ -47,7 +47,7 @@ async function sendReminder() {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `:wave: Hey ${memberMentions}! Just a friendly reminder to share your daily updates! Please take a moment to fill out the following:`
+              text: `:wave: Hey ${memberMentions}!\n- \n- Just a friendly reminder to share your daily updates if you haven't done so already! Please take a moment to fill out the following:`
             }
           },
           {
@@ -61,7 +61,7 @@ async function sendReminder() {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `This helps everyone stay in the loop and keeps us all moving forward. Thanks! :blush:`
+              text: `This helps everyone stay in the loop and keeps us all moving forward.\n- \n- If you've already posted your update, thank you! If not, please do so at your earliest convenience. Thanks! :blush:`
             }
           }
         ]
@@ -75,7 +75,7 @@ async function sendReminder() {
       console.error('Error in sendReminder:', error);
       throw error;
     }
-  }
+}
 
 module.exports = async (req, res) => {
   if (req.method === 'POST') {
