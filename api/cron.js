@@ -11,13 +11,15 @@ const CRON_REQ_SECRET = process.env.CRON_REQ_SECRET;
 
 async function getActiveChannelMembers() {
   try {
+    const excludedMembers = process.env.EXCLUDED_MEMBERS ? process.env.EXCLUDED_MEMBERS.split(',') : [];
+
     const result = await app.client.conversations.members({
       channel: channelId
     });
 
     const memberPromises = result.members.map(async (memberId) => {
       const userInfo = await app.client.users.info({ user: memberId });
-      return userInfo.user.deleted || userInfo.user.is_bot ? null : memberId;
+      return userInfo.user.deleted || userInfo.user.is_bot || excludedMembers.includes(memberId) ? null : memberId;
     });
 
     const members = await Promise.all(memberPromises);
