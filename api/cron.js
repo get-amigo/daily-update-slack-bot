@@ -7,6 +7,7 @@ const app = new App({
 });
 
 const channelId = process.env.SLACK_CHANNEL_ID;
+const CRON_REQ_SECRET = process.env.CRON_REQ_SECRET;
 
 async function getActiveChannelMembers() {
   try {
@@ -33,7 +34,7 @@ async function sendReminder() {
     
     if (activeMembers.length === 0) {
       console.log('No active members found in the channel.');
-      return;
+      return 'No active members found';
     }
 
     const memberMentions = activeMembers.map(userId => `<@${userId}>`).join(' ');
@@ -45,17 +46,31 @@ async function sendReminder() {
     });
 
     console.log(`Reminder sent`);
+    return 'Reminder sent successfully';
   } catch (error) {
     console.error('Error in sendReminder:', error);
+    throw error;
   }
 }
 
 module.exports = async (req, res) => {
-  try {
-    await sendReminder();
-    res.status(200).send('Reminder sent successfully');
-  } catch (error) {
-    console.error('Error in cron job:', error);
-    res.status(500).send('Error sending reminder');
+  if (req.method === 'POST') {
+    try {
+      const { secret } = req.body;
+
+      if (secret !== CRON_REQ_SECRET) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+      }
+
+      const result = await sendReminder();
+      res.status(200).json({ message: result });
+    } catch (error) {
+      console.error('Error in webhook:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
