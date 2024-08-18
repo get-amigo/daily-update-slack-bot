@@ -29,28 +29,45 @@ async function getActiveChannelMembers() {
 }
 
 async function sendReminder() {
-  try {
-    const activeMembers = await getActiveChannelMembers();
-    
-    if (activeMembers.length === 0) {
-      console.log('No active members found in the channel.');
-      return 'No active members found';
+    try {
+      const activeMembers = await getActiveChannelMembers();
+      
+      if (activeMembers.length === 0) {
+        console.log('No active members found in the channel.');
+        return 'No active members found';
+      }
+  
+      const memberMentions = activeMembers.map(userId => `<@${userId}>`).join(' ');
+      const message = `👋 Hey ${memberMentions}! Just a friendly reminder to share your daily updates! Please take a moment to fill out the following:
+  
+  **Tasks done today:**
+  -  
+  -  
+  -  
+  
+  **Tasks for tomorrow:**
+  -  
+  -  
+  -  
+  
+  **Blockers:**
+  -  
+  -  
+  -  
+  
+  This helps everyone stay in the loop and keeps us all moving forward. Thanks! 😊`;
+  
+      await app.client.chat.postMessage({
+        channel: channelId,
+        text: message,
+      });
+  
+      console.log('Reminder sent');
+      return 'Reminder sent successfully';
+    } catch (error) {
+      console.error('Error in sendReminder:', error);
+      throw error;
     }
-
-    const memberMentions = activeMembers.map(userId => `<@${userId}>`).join(' ');
-    const message = `Hey ${memberMentions}! Time for your daily update. Please post your progress in the channel.`;
-
-    await app.client.chat.postMessage({
-      channel: channelId,
-      text: message,
-    });
-
-    console.log(`Reminder sent`);
-    return 'Reminder sent successfully';
-  } catch (error) {
-    console.error('Error in sendReminder:', error);
-    throw error;
-  }
 }
 
 module.exports = async (req, res) => {
