@@ -38,29 +38,36 @@ async function sendReminder() {
       }
   
       const memberMentions = activeMembers.map(userId => `<@${userId}>`).join(' ');
-      const message = `👋 Hey ${memberMentions}! Just a friendly reminder to share your daily updates! Please take a moment to fill out the following:
   
-  **Tasks done today:**
-  -  
-  -  
-  -  
-  
-  **Tasks for tomorrow:**
-  -  
-  -  
-  -  
-  
-  **Blockers:**
-  -  
-  -  
-  -  
-  
-  This helps everyone stay in the loop and keeps us all moving forward. Thanks! 😊`;
-  
-      await app.client.chat.postMessage({
+      const message = {
         channel: channelId,
-        text: message,
-      });
+        text: 'Daily Update Reminder',
+        blocks: [
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: `:wave: Hey ${memberMentions}! Just a friendly reminder to share your daily updates! Please take a moment to fill out the following:`
+            }
+          },
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: `*Tasks done today:*\n- \n- \n- \n\n*Tasks for tomorrow:*\n- \n- \n- \n\n*Blockers:*\n- \n- \n-`
+            }
+          },
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: `This helps everyone stay in the loop and keeps us all moving forward. Thanks! :blush:`
+            }
+          }
+        ]
+      };
+  
+      await app.client.chat.postMessage(message);
   
       console.log('Reminder sent');
       return 'Reminder sent successfully';
@@ -68,7 +75,7 @@ async function sendReminder() {
       console.error('Error in sendReminder:', error);
       throw error;
     }
-}
+  }
 
 module.exports = async (req, res) => {
   if (req.method === 'POST') {
