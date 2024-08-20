@@ -25,6 +25,7 @@ jobs:
         echo "SLACK_SIGNING_SECRET=${{ secrets.SLACK_SIGNING_SECRET }}" >> .env
         echo "SLACK_CHANNEL_ID=${{ secrets.SLACK_CHANNEL_ID }}" >> .env
         echo "CRON_REQ_SECRET=${{ secrets.CRON_REQ_SECRET }}" >> .env
+        echo "EXCLUDED_MEMBERS=${{ secrets.EXCLUDED_MEMBERS }}" >> .env
 
     - name: Install Vercel CLI
       run: npm i -g vercel@latest
