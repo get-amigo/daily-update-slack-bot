@@ -62,7 +62,7 @@ async function sendReminder() {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `This helps everyone stay in the loop and keeps us all moving forward.\n\n If you've already posted your update, thank you! If not, please do so at your earliest convenience. Thanks! :blush:`
+              text: `This helps everyone stay in the loop and keeps us all moving forward.\n\n If you've already posted your update, thank you! If not, please do so at your earliest convenience.\n\n Thanks! :blush:`
             }
           }
         ]
