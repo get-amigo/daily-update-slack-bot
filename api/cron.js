@@ -12,6 +12,9 @@ const CRON_REQ_SECRET = process.env.CRON_REQ_SECRET;
 async function getActiveChannelMembers() {
   try {
     const excludedMembers = process.env.EXCLUDED_MEMBERS ? process.env.EXCLUDED_MEMBERS.split(',') : [];
+    console.log('====================================');
+    console.log('Excluded Members:', excludedMembers);
+    console.log('====================================');
 
     const result = await app.client.conversations.members({
       channel: channelId
@@ -23,6 +26,9 @@ async function getActiveChannelMembers() {
     });
 
     const members = await Promise.all(memberPromises);
+    console.log('====================================');
+    console.log('Channel Members:', members);
+    console.log('====================================');
     return members.filter(member => member !== null);
   } catch (error) {
     console.error('Error fetching channel members:', error);
@@ -49,14 +55,7 @@ async function sendReminder() {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `:wave: Hey ${memberMentions}!\n\n Just a friendly reminder to share your daily updates if you haven't done so already! Please take a moment to fill out the following:`
-            }
-          },
-          {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: `*Tasks done today:*\n- \n\n*Tasks for tomorrow:*\n- \n\n*Blockers:*\n-`
+              text: `:wave: Hey ${memberMentions}!\n\n Just a friendly reminder to share your daily updates if you haven't done so already!`
             }
           },
           {
